@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+
+import glob
+import json
+
+files = glob.glob("./**/*.md")
+
+index = { "files": []}
+for file in files:
+    f = open(file,'r')
+    content = "".join(f.readlines())    
+    index_frontmatter = content[4:].index('---')
+    meta_content = content[4:index_frontmatter + 3]
+
+    meta = {}
+    for line in meta_content.split("\n"):
+        key = line[0:line.index(":")]
+        val = line[(line.index(":")+2):]
+        try:
+            meta[key] = json.loads(val)
+        except:
+            meta[key] = val
+
+    index["files"].append({"file": file[1:], "meta": meta})
+
+f = open("index.json", "w" )
+f.write(json.dumps(index))
