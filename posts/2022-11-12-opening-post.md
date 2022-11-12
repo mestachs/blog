@@ -4,6 +4,8 @@ date: 2022-11-12T08:31:44+01:00
 draft: true
 ---
 
+# Introduction
+
 Just testing and wondering how it's working.
 
 ```mermaid
@@ -14,6 +16,8 @@ graph LR
     C --> D
 ```
 
+## Code Snippets
+
 Want still to support normal snippet
 
 ```ruby
@@ -21,3 +25,16 @@ Want still to support normal snippet
 puts "we are done here"
 
 ```
+
+## Code Snippet python
+
+```python
+
+if debug:
+    print("we are done here")
+
+```
+
+# Conclusion
+
+That's cool no ?
