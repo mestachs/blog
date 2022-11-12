@@ -6,7 +6,9 @@ draft: true
 
 # Introduction
 
-Just testing and wondering how it's working.
+This _post_ is **just** a show case for all the possibilities of my "nearly" static site generator.
+
+Just testing mermaid block fences and wondering how it's working.
 
 ```mermaid
 graph LR
