@@ -25,3 +25,52 @@ Note also that crt.sh also offer access to a replicated postgres instance (be ge
 ```bash
 psql -h crt.sh -p 5432 -U guest certwatch
 ```
+
+Now it's time to discover the schema of the db
+
+The easier is to just append a `&showSQL=Y` to the query
+
+https://crt.sh/?q=google.com&showSQL=Y
+
+```sql
+WITH ci AS (
+    SELECT min(sub.CERTIFICATE_ID) ID,
+           min(sub.ISSUER_CA_ID) ISSUER_CA_ID,
+           array_agg(DISTINCT sub.NAME_VALUE) NAME_VALUES,
+           x509_commonName(sub.CERTIFICATE) COMMON_NAME,
+           x509_notBefore(sub.CERTIFICATE) NOT_BEFORE,
+           x509_notAfter(sub.CERTIFICATE) NOT_AFTER,
+           encode(x509_serialNumber(sub.CERTIFICATE), 'hex') SERIAL_NUMBER
+        FROM (SELECT *
+                  FROM certificate_and_identities cai
+                  WHERE plainto_tsquery('certwatch', $1) @@ identities(cai.CERTIFICATE)
+                      AND cai.NAME_VALUE ILIKE ('%' || $1 || '%')
+                  LIMIT 10000
+             ) sub
+        GROUP BY sub.CERTIFICATE
+)
+SELECT ci.ISSUER_CA_ID,
+        ca.NAME ISSUER_NAME,
+        ci.COMMON_NAME,
+        array_to_string(ci.NAME_VALUES, chr(10)) NAME_VALUE,
+        ci.ID ID,
+        le.ENTRY_TIMESTAMP,
+        ci.NOT_BEFORE,
+        ci.NOT_AFTER,
+        ci.SERIAL_NUMBER
+    FROM ci
+            LEFT JOIN LATERAL (
+                SELECT min(ctle.ENTRY_TIMESTAMP) ENTRY_TIMESTAMP
+                    FROM ct_log_entry ctle
+                    WHERE ctle.CERTIFICATE_ID = ci.ID
+            ) le ON TRUE,
+         ca
+    WHERE ci.ISSUER_CA_ID = ca.ID
+    ORDER BY le.ENTRY_TIMESTAMP DESC NULLS LAST;
+```
+
+replace the `$1` by `'google.com'` that's it. You can issue this query in psql prompt.
+
+You can probably turn this into a shell script and watch your own domains.
+
+Have fun and stay safe !
