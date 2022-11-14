@@ -5,20 +5,28 @@ draft: true
 tags: ["TIL", "security"]
 ---
 
-By design you can't query dns to get "all the records/servers" in that domain or subdomains.
+# Host enumeration
+
+By design you can't query dns servers to get "all the records/servers" in that domain or subdomains.
 At best you might find some links (ex mail servers) or guess some server names from naming conventions.
 
-You have plenty of [tools](https://github.com/nixawk/pentest-wiki/blob/master/1.Information-Gathering/How-to-gather-dns-information.md) trying to crawl/enumerate them in a _brute_ force approach or using google or other search engines.
+You have plenty of [tools](https://github.com/nixawk/pentest-wiki/blob/master/1.Information-Gathering/How-to-gather-dns-information.md) trying to crawl/enumerate them in a _brute_ force approach or with a more heuristic minded approach by using google or other search engines (assuming at somepoint it got indexed, posted in a support forum,...).
 
-But with the rise of automated https certificate, and the [certificate transparency](https://certificate.transparency.dev/), it's easier than ever since most service are over https.
-It's now possible to find all hosts that requested a certificate.
+But why would you ask this kind of question in the first place ?
+It might be used by bad actors or pen testers looking for more vulnerable hosts in your wider infrastructure than your main site.
 
-There's a site [crt.sh](https://crt.sh) that offer such a data base (as a ui and as a db). It's developped by [robstradling](https://github.com/robstradling) and it's open sourced on [github](https://github.com/crtsh) ! At time of writing, since 2013, 2,563,437,540 certificates have been logged.
-This crt.sh site can give you all the certificates issued for a give domain google.com : https://crt.sh/?q=google.com
+But with the rise of automated https[^1] certificate, and the [certificate transparency](https://certificate.transparency.dev/), it's easier than ever since most service are over https. It's now possible to find all hosts that requested a certificate.
+
+# crt.sh
+
+There's a site [crt.sh](https://crt.sh) that offer such a database (as a ui and as a db). It's developped by [rob stradling](https://github.com/robstradling) and it's open sourced on [github](https://github.com/crtsh) ! At time of writing, since 2013, 2,563,437,540 certificates have been logged.
+This crt.sh site can give you all the certificates issued for a give domain let's say google.com : https://crt.sh/?q=google.com
 
 ![image](https://user-images.githubusercontent.com/371692/201496725-9e106477-6b4f-461d-b993-ca15112fab8c.png)
 
-While this information might be useful to be sure you are talking to the good server (web PKI), it might be used by bad actors or pen testers looking for more vulnerable host in your wider infrastructure than your main site.
+Now you are probably wondering what is this sandbox.google.com subdomain ? I don't know but now you know it exist !
+
+# crt.sh db access
 
 Note also that crt.sh also offer access to a replicated postgres instance (be gentle with the db).
 
@@ -69,8 +77,10 @@ SELECT ci.ISSUER_CA_ID,
     ORDER BY le.ENTRY_TIMESTAMP DESC NULLS LAST;
 ```
 
-replace the `$1` by `'google.com'` that's it. You can issue this query in psql prompt.
+Replace the `$1` by `'google.com'` that's it. You can issue this query in psql prompt.
 
 You can probably turn this into a shell script and watch your own domains.
 
 Have fun and stay safe !
+
+[^1]: I'm making a small apprixmation here. SSL is the Secure Socket Layer, TLS stands for Transport Layer Security (kind of successor of SSL), HTTPS Hypertext Transfer Protocol Secure which is http-over-ssl or http-over-tls depending on the transport layer supported by the server.
