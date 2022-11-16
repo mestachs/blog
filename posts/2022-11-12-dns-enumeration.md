@@ -20,7 +20,7 @@ But with the rise of automated https[^1] certificate, and the [certificate trans
 # crt.sh
 
 There's a site [crt.sh](https://crt.sh) that offer such a database (as a ui and as a db). It's developped by [rob stradling](https://github.com/robstradling) and it's open sourced on [github](https://github.com/crtsh) ! At time of writing, since 2013, 2,563,437,540 certificates have been logged.
-This crt.sh site can give you all the certificates issued for a give domain let's say google.com : https://crt.sh/?q=google.com
+This crt.sh site can give you all the certificates issued for a given domain let's say google.com : https://crt.sh/?q=google.com
 
 ![image](https://user-images.githubusercontent.com/371692/201496725-9e106477-6b4f-461d-b993-ca15112fab8c.png)
 
