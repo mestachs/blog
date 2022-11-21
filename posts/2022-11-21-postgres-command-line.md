@@ -179,6 +179,9 @@ Enabling it a bit of work but clearly worth it
 - create the extension
 - profit
   - find queries
+    - most time consuming (# of excution x cpu time)
+    - slow queries more (running more than 5 seconds)
+    - most executed against nearly static data (cache opportunity at app level)
   - reset/replay the use case to find the sqls emitted
 
 If you want to go further check the [crunchydata article](https://www.crunchydata.com/blog/tentative-smarter-query-optimization-in-postgres-starts-with-pg_stat_statements)
@@ -191,6 +194,6 @@ He will refresh regularly, allow to cancel or kill selected backend connections.
 
 At the top of the screen you will get a sense of the load on the db then bellow you get a list of the running queries.
 
-![pgtop]https://camo.githubusercontent.com/bff0aaefca67fc68d4b3655403a5a70d730990080062e736acae84107feb7aeb/68747470733a2f2f7261772e6769746875622e636f6d2f64616c69626f2f70675f61637469766974792f6d61737465722f646f63732f696d67732f73637265656e73686f742e706e67
+![pgtop](https://camo.githubusercontent.com/bff0aaefca67fc68d4b3655403a5a70d730990080062e736acae84107feb7aeb/68747470733a2f2f7261772e6769746875622e636f6d2f64616c69626f2f70675f61637469766974792f6d61737465722f646f63732f696d67732f73637265656e73686f742e706e67)
 
 A mysql user ? Check [mytop](https://github.com/jzawodn/mytop)
