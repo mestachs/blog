@@ -9,18 +9,19 @@ In this article I wanted to share tools, tricks I use everyday and "command line
 
 # The basic : psql
 
-Ok that's something you probably know... Since you probably ended up on a machine where you only vi or nano to edit files.
-You probably have to know a few psql tricks to survive there.
+Ok that's something you probably know... but why do I need to know `psql` ?
+You already ended up on a machine where you only have vi or nano to edit files ?
+That's exactly the same here, you have to know a few psql tricks to survive there too.
 
 ## DATABASE_URL
 
-First if you have environnement variables the `DATABASE_URL` (a la heroku) you don't have to split the url into its components
+First if you have environnement variable like the `DATABASE_URL` (à la heroku) you don't have to split the url into its components to run psql against the db
 
 ```
 psql postgresql://user:password@host.zone.rds.amazonaws.com:5432/demo
 ```
 
-Note that pgdump also support that but a bit differently
+Note that pg_dump also support that but a bit differently
 
 ```
 pg_dump -Fc -v --no-acl --no-owner --dbname=$DATABASE_URL -f myapp.dump
@@ -36,7 +37,7 @@ To discover the databases, tables,... you have plenty of commands like these
 \d+ <<table>>   listing columns, indexes, foreign keys constraints, partitions, triggers
 ```
 
-Exemple output of details about a table
+Example output of details about a table
 
 ```
                                              Partitioned table "public.certificate"
@@ -100,12 +101,14 @@ but another cool thing is replacing the default PAGER `less` with [pspg](https:/
 
 ![pspg](https://raw.githubusercontent.com/okbob/pspg/master/screenshots/pspg-4.3.0-mc-export-111x34.png)
 
-## Getting further
+This open a lot of possibilities (navigation, search, export)
+
+## Getting further with psql
 
 There are plenty of articles on the web to learn a lot of things about psql
 
 - [cheatsheets](https://gist.github.com/philippetedajo/91341cb4d14c7b07e381d70839acf0f5)
-- [psql tips](https://psql-tips.org/psql_tips_all.html)
+- [psql tips](https://psql-tips.org/psql_tips_all.html) (100+ tips)
 - [psql tips](https://pgdash.io/blog/postgres-psql-tips-tricks.html) (timings, null,...)
 
 # The coolkid : pgcli
@@ -135,6 +138,9 @@ pgh myherokuapp
 Note that if you have other database to support (mysql, mssql) there are other cli tool [here](https://www.dbcli.com/)
 
 # Gaining visibility
+
+If you connect your self to the production database, it's probably that something isn't working as expected.
+Let's see our options here.
 
 ## pg_stat_activity
 
