@@ -20,8 +20,6 @@ First if you have environnement variables the `DATABASE_URL` (a la heroku) you d
 psql postgresql://user:password@host.zone.rds.amazonaws.com:5432/demo
 ```
 
-If you really use you heroku you might be interested by adding a bash function like this one (in .bashrc)
-
 Note that pgdump also support that but a bit differently
 
 ```
@@ -120,7 +118,7 @@ The autocomplete is just great, pgcli will proposed you join conditions based on
 
 ![pgcli](https://user-images.githubusercontent.com/371692/203144054-89a09739-51d5-452d-a9be-ebdb2ee727e2.png)
 
-Want a `heroku psql -a ...` but for launching pgcli ?
+Want a `heroku psql -a ...` but for launching pgcli ? Add this bash function in your .bashrc
 
 ```bash
 pgh() {
@@ -149,7 +147,7 @@ Want a cool trick take csv snapshots of the queries ?
 psql -h crt.sh -p 5432 -U guest certwatch -c "COPY (select * from pg_stat_activity) TO STDOUT WITH CSV HEADER"
 ```
 
-In my current work, I've combined a few tools to get a feeling of "what's running" when we problems
+In my current work, I've combined a few tools to get a feeling of "what's running" when we have problems :
 
 - thread stack (jstack, signal for ruby process,...), logs, http logs
 - the queries on postgres
