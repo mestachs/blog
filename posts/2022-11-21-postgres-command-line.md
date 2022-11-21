@@ -115,7 +115,9 @@ There are plenty of articles on the web to learn a lot of things about psql
 
 Think of [pgcli](https://www.pgcli.com/) as a psql on steroid, exploring the schema/data is 200% easier (Some stuff are still better in psql, ex dumping a lot of data). It's a python package easy to install (once you know a bit of python).
 
-## Friends don't let their friends write join conditions... tell them to use pgcli autocompletion ;)
+## Autocompletion for the win
+
+Friends don't let their friends write join conditions... tell them to use pgcli autocompletion ;)
 
 The autocomplete is just great, pgcli will proposed you join conditions based on foreign key constraints.
 
