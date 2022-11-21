@@ -28,7 +28,7 @@ pg_dump -Fc -v --no-acl --no-owner --dbname=$DATABASE_URL -f myapp.dump
 
 ## Finding your way
 
-To discover that databases, tables,... you have plenty of commands like these
+To discover the databases, tables,... you have plenty of commands like these
 
 ```
 \l+             listing databases
@@ -138,10 +138,10 @@ Note that if you have other database to support (mysql, mssql) there are other c
 
 ## pg_stat_activity
 
-My app is super slow, my ruby/python process just blow up...
-You probably want to answer what is currently running right now in postgres ?
+My app is super slow, my ruby/python/java process just blow up...
+You probably want to answer the question 'what is running right now in postgres' ?
 
-Want a cool trick take csv snapshots of the queries ?
+Want a cool trick to take csv snapshots of the queries ?
 
 ```
 psql -h crt.sh -p 5432 -U guest certwatch -c "COPY (select * from pg_stat_activity) TO STDOUT WITH CSV HEADER"
@@ -149,7 +149,7 @@ psql -h crt.sh -p 5432 -U guest certwatch -c "COPY (select * from pg_stat_activi
 
 In my current work, I've combined a few tools to get a feeling of "what's running" when we have problems :
 
-- thread stack (jstack, signal for ruby process,...), logs, http logs
+- thread stack (jstack, signal for ruby process,...), logs, http logs, top
 - the queries on postgres
 
 and generally this give a few supsects to investigate (no need of pricey apm ;)).
@@ -173,12 +173,14 @@ Enabling it a bit of work but clearly worth it
 
 If you want to go further check the [crunchydata article](https://www.crunchydata.com/blog/tentative-smarter-query-optimization-in-postgres-starts-with-pg_stat_statements)
 
-## ok that's nice but do you have like top ?
+## Ok that's nice but do you have a tool like top ?
 
 Tired of running, refreshing your psql prompt to hunt the bad sql ?
-No problem there's a top like tool called [pg_activity](https://github.com/dalibo/pg_activity)
+No problem there's a top like tool called [pg_activity](https://github.com/dalibo/pg_activity) (note that it plays well with rds)
 He will refresh regularly, allow to cancel or kill selected backend connections.
 
 At the top of the screen you will get a sense of the load on the db then bellow you get a list of the running queries.
 
 ![pgtop]https://camo.githubusercontent.com/bff0aaefca67fc68d4b3655403a5a70d730990080062e736acae84107feb7aeb/68747470733a2f2f7261772e6769746875622e636f6d2f64616c69626f2f70675f61637469766974792f6d61737465722f646f63732f696d67732f73637265656e73686f742e706e67
+
+A mysql user ? Check [mytop](https://github.com/jzawodn/mytop)
