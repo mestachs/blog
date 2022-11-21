@@ -137,6 +137,10 @@ pgh myherokuapp
 
 Note that if you have other database to support (mysql, mssql) there are other cli tool [here](https://www.dbcli.com/)
 
+## Pager
+
+You'll need to config changes to make `pspg` work with pgcli : https://github.com/okbob/pspg#pgcli
+
 # Gaining visibility
 
 If you connect your self to the production database, it's probably that something isn't working as expected.
