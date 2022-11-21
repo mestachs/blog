@@ -1,7 +1,7 @@
 ---
 title: "DNS/Certificate Enumeration"
 date: 2022-11-12T23:31:44+01:00
-draft: true
+draft: false
 tags: ["TIL", "security"]
 ---
 
