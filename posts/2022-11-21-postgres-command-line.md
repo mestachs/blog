@@ -12,13 +12,13 @@ In this article I wanted to share tools, tricks I use everyday around postgres a
 Ok that's something you probably know... but why do I need to know `psql` ?
 You already ended up on a machine where you only have vi or nano to edit files ?
 That's exactly the same here, you have to know a few psql tricks to survive there too.
-In production you often have limited/restricted access, these command line knowledge is a gift to get you out of troubles.
+In production you often have limited/restricted access, these command line knowledge are a gift to get you out of troubles.
 The last years , I've pushed this further, I don't have Rich/UI db client on my laptop either.
 
 ## Get a connection : DATABASE_URL
 
 While psql allows to pass host, port, databasename, user, password... most of the applications I host have a url to connect the database.
-Switching from one form to the other is always painful : host is -H -h and -p password port ?
+Switching from one form to the other is always painful : host is `-H` or `-h` ? and `-p` is for `password` or `port` ?
 If you have environnement variable like the `DATABASE_URL` (à la heroku) you don't have to split the url into its components to run psql against the db
 
 ```
@@ -93,8 +93,8 @@ A first option is just using the arrow keys to go a few queries back.
 
 The second option is like in a bash terminal : CTRL-r then start filtering by fragment you remember and cycle between matching queries with CTRL-r
 
-I like to keep track of queries and outputs (number of records deleted/updated,...) that I've run on a production server but sadly there's no easy way to wiretype them (the history is not a perfect solution there)
-For the moment I copy paste them in gists/jira/text files for later reference. Generally some of these end up being reused and more formalised as [runbooks](https://en.wikipedia.org/wiki/Runbook).
+I like to keep track of queries and outputs (number of records deleted/updated,...) that I've run on a production server but sadly there's no easy way to wiretype them (the history is not a perfect solution there). For the moment I copy paste them in gists/jira/text files for later reference. Generally some of these end up being reused and more formalised as [runbooks](https://en.wikipedia.org/wiki/Runbook).
+
 If you know such a tool let me know ! (I know you can setup this server side but client would be great for me)
 
 ## Pager : more is less
@@ -122,7 +122,7 @@ This open a lot of possibilities (navigation, search, export)
 
 ## Getting further with psql
 
-There are plenty of articles on the web to learn a lot of things about psql
+There are plenty of articles on the web to learn a lot of things about psql, a few selected articles
 
 - [cheatsheets](https://gist.github.com/philippetedajo/91341cb4d14c7b07e381d70839acf0f5)
 - [psql tips](https://psql-tips.org/psql_tips_all.html) (100+ tips)
@@ -164,7 +164,7 @@ You'll need some config changes to make `pspg` work with pgcli : https://github.
 
 # Gaining visibility
 
-If you connect your self to the production database, it's probably that something isn't working as expected.
+If you connect your self to the production database, it's probably that something isn't working as expected or much slower than usual.
 Let's see our options here.
 
 ## pg_stat_activity
@@ -238,7 +238,53 @@ At the top of the screen you will get a sense of the load on the db then bellow 
 
 A mysql user ? Check [mytop](https://github.com/jzawodn/mytop)
 
+# Nice graphs ?
+
+This is more for fun than profit but why not ;)
+It's more about csv then postgres but this can help visualize things.
+Note that some people do generate graphs from [sql](https://blog.jooq.org/how-to-plot-an-ascii-bar-chart-with-sql)
+
+Can you generate a graph ? Well sort of, piping the data into [termgraph](https://github.com/mkaz/termgraph) (without the csv headers)
+
+```
+psql $DATABASE_URL -c "copy (select EXTRACT(YEAR FROM created), count(*) from datavalue group by EXTRACT(YEAR FROM created)) TO STDOUT WITH CSV;" | termgraph
+```
+
+will output the year number of datavalues created that year
+
+```
+2019: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 924.29K
+2020: ▏ 925.00
+2021: ▏ 502.00
+2022: ▏ 10.00
+```
+
+I'm not impressed what about sparklines ? No problem a bit of cut and pipe it to [spark](https://github.com/holman/spark)
+
+```
+psql $DATABASE_URL -c "copy (select EXTRACT(YEAR FROM created), count(*) from datavalue group by EXTRACT(YEAR FROM created) order by 1 asc)  TO STDOUT WITH CSV;" | cut -d, -f2 | spark
+```
+
+you'll get something nice
+
+```
+█▁▁▁
+```
+
+Just for your info and completely unrelated to postgres, I'm using such technique to render the downtime of our servers in slack ;)
+
+```
+:warning: ▅▇▅▆▇▇▇▇▇▆▇▇▇▇▇▇▇▇▇▇▇▇▂▁
+```
+
+You might want to have a look at other charts solution from the command line
+
+- [gnuplot](https://gist.github.com/darencard/ffc850949a53ff578260c8b7d3881f28)
+- [asciichart](https://github.com/kroitor/asciichart)
+
 # Conclusion
 
 I hope, I gave you a sense of the power the cli. And how to diagnose performance problem without heavy tooling.
 Note that once you have started using the cli everyday, this opens also a lot of options to automates things around your database or development environment.
+
+I'll probably write more about command line and data ingestion in a futur article.
