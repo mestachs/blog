@@ -205,7 +205,7 @@ and generally this give a few supsects to investigate (no need of pricey apm ;))
 
 ## pg_stat_statements
 
-Ok you missed the query with pg_stat_activity or it's getting too fast to collect or it's in fact 1000 the same sql ? May be you should keep some planning and execution statitics and analyze them afterwards.
+Ok you missed the query with pg_stat_activity or it's getting too fast to collect or it's in fact 1000 times the same sql ? May be you should keep some planning and execution statitics and analyze them afterwards.
 
 [pg_stat_statements](https://www.postgresql.org/docs/current/pgstatstatements.html) is the answer.
 
