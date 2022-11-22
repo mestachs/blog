@@ -89,7 +89,7 @@ Partitions: certificate_2013andbefore FOR VALUES FROM (MINVALUE) TO ('2014-01-01
 
 Want to re-run a previous sql statement ?
 
-A first option is just using the arrow keys to go back a few queries back.
+A first option is just using the arrow keys to go a few queries back.
 
 The second option is like in a bash terminal : CTRL-r then start filtering by fragment you remember and cycle between matching queries with CTRL-r
 
@@ -237,3 +237,8 @@ At the top of the screen you will get a sense of the load on the db then bellow 
 ![pgtop](https://camo.githubusercontent.com/bff0aaefca67fc68d4b3655403a5a70d730990080062e736acae84107feb7aeb/68747470733a2f2f7261772e6769746875622e636f6d2f64616c69626f2f70675f61637469766974792f6d61737465722f646f63732f696d67732f73637265656e73686f742e706e67)
 
 A mysql user ? Check [mytop](https://github.com/jzawodn/mytop)
+
+# Conclusion
+
+I hope, I gave you a sense of the power the cli. And how to diagnose performance problem without heavy tooling.
+Note that once you have started using the cli everyday, this opens also a lot of options to automates things around your database or development environment.
