@@ -114,7 +114,7 @@ export PAGER=
 psql
 ```
 
-but another cool thing is replacing the default PAGER `less` with [pspg](https://github.com/okbob/pspg)
+but another cool thing is replacing the default PAGER `less` with [pspg](https://github.com/okbob/pspg) (Postgres Pager)
 
 ![pspg](https://raw.githubusercontent.com/okbob/pspg/master/screenshots/pspg-4.3.0-mc-export-111x34.png)
 
