@@ -85,6 +85,40 @@ Partitions: certificate_2013andbefore FOR VALUES FROM (MINVALUE) TO ('2014-01-01
 
 ```
 
+## Don't remember the sql syntax ?
+
+do a `\h` followed by the sql statement (insert, delete, update, alter table) (or `\h if really don't remember anything`)
+sadly it's not showing concrete sample queries but it's already good.
+
+```
+db=> \h insert
+Command:     INSERT
+Description: create new rows in a table
+Syntax:
+[ WITH [ RECURSIVE ] with_query [, ...] ]
+INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
+    [ OVERRIDING { SYSTEM | USER } VALUE ]
+    { DEFAULT VALUES | VALUES ( { expression | DEFAULT } [, ...] ) [, ...] | query }
+    [ ON CONFLICT [ conflict_target ] conflict_action ]
+    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
+
+where conflict_target can be one of:
+
+    ( { index_column_name | ( index_expression ) } [ COLLATE collation ] [ opclass ] [, ...] ) [ WHERE index_predicate ]
+    ON CONSTRAINT constraint_name
+
+and conflict_action is one of:
+
+    DO NOTHING
+    DO UPDATE SET { column_name = { expression | DEFAULT } |
+                    ( column_name [, ...] ) = [ ROW ] ( { expression | DEFAULT } [, ...] ) |
+                    ( column_name [, ...] ) = ( sub-SELECT )
+                  } [, ...]
+              [ WHERE condition ]
+
+URL: https://www.postgresql.org/docs/14/sql-insert.html
+```
+
 ## Find your trails
 
 Want to re-run a previous sql statement ?
@@ -225,6 +259,34 @@ Enabling it a bit of work but clearly worth it
 
 If you want to go further check the [crunchydata article](https://www.crunchydata.com/blog/tentative-smarter-query-optimization-in-postgres-starts-with-pg_stat_statements)
 
+## Explain plan visualizer
+
+You have spotted a slow query ? You can now run an explain plan !
+
+```
+psql $DATABASE_URL -qAtc "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) select * from iaso_instance join iaso_form ON iaso_form.id = iaso_instance.form_id where iaso_form.name ilike '%admin%' limit 10" | pbcopy
+```
+
+This will generate the explain plan of the query in quotes and copy it in the clipboard (assuming you have [xclip](https://garywoodfine.com/use-pbcopy-on-ubuntu/) and pbcopy alias)
+
+Next step is to paste it on this site : https://tatiyants.com/pev/#/plans/new (no server side parsing/rendering, everything is parsed/stored/rendered in your browser)
+
+Tada ! Thanks to [AlexTatiyants](https://twitter.com/AlexTatiyants) you have nice explain plan.
+
+![image](https://user-images.githubusercontent.com/371692/204056951-6bf8ff3e-f34b-4b1e-9acb-46be5b0cb93d.png)
+
+What to look for ?
+
+- `seq scan` on large tables (an index might help ?)
+- cartesian join
+- really bad row estimates (`ANALYZE` needed ?)
+
+Note that you can use other sites like :
+
+- https://explain.depesz.com/ or
+- https://explain.dalibo.com/ but they stored your info serverside, (note dalibo seem to provide a local install too https://github.com/dalibo/pev2)
+- https://flame-explain.com/visualize/input this looks great also offering a flamegraph rendering
+
 ## Ok that's nice but do you have a tool like top ?
 
 Tired of running, refreshing your psql prompt to hunt the bad sql ? Want to gain visibility when restoring a backup ?
@@ -244,6 +306,8 @@ This is more for fun than profit but why not ;)
 It's more about csv then postgres but this can help visualize things.
 Note that some people do generate graphs from [sql](https://blog.jooq.org/how-to-plot-an-ascii-bar-chart-with-sql)
 
+## Termgraph
+
 Can you generate a graph ? Well sort of, piping the data into [termgraph](https://github.com/mkaz/termgraph) (without the csv headers)
 
 ```
@@ -259,23 +323,21 @@ will output the year number of datavalues created that year
 2022: ▏ 10.00
 ```
 
+## Sparklines
+
 I'm not impressed what about sparklines ? No problem a bit of cut and pipe it to [spark](https://github.com/holman/spark)
 
 ```
 psql $DATABASE_URL -c "copy (select EXTRACT(YEAR FROM created), count(*) from datavalue group by EXTRACT(YEAR FROM created) order by 1 asc)  TO STDOUT WITH CSV;" | cut -d, -f2 | spark
 ```
 
-you'll get something nice
+you'll get something nice : `█▁▁▁`
 
-```
-█▁▁▁
-```
+## A bit unrelated, ascii art in slack
 
 Just for your info and completely unrelated to postgres, I'm using such technique to render the downtime of our servers in slack ;)
 
-```
-:warning: ▅▇▅▆▇▇▇▇▇▆▇▇▇▇▇▇▇▇▇▇▇▇▂▁
-```
+:warning: `▅▇▅▆▇▇▇▇▇▆▇▇▇▇▇▇▇▇▇▇▇▇▂▁`
 
 You might want to have a look at other charts solution from the command line
 
@@ -285,6 +347,7 @@ You might want to have a look at other charts solution from the command line
 # Conclusion
 
 I hope, I gave you a sense of the power the cli. And how to diagnose performance problem without heavy tooling.
-Note that once you have started using the cli everyday, this opens also a lot of options to automates things around your database or development environment.
+
+Note that once you have started using the cli everyday, this opens also a lot of options to automate things around your database or development environment.
 
 I'll probably write more about command line and data ingestion in a futur article.
