@@ -87,7 +87,7 @@ Partitions: certificate_2013andbefore FOR VALUES FROM (MINVALUE) TO ('2014-01-01
 
 ## Don't remember the sql syntax ?
 
-do a `\h` followed by the sql statement (insert, delete, update, alter table) (or `\h if really don't remember anything`)
+do a `\h` followed by the sql statement (insert, delete, update, alter table) (or `\h` alone if you really don't remember anything)
 sadly it's not showing concrete sample queries but it's already good.
 
 ```
@@ -125,7 +125,7 @@ Want to re-run a previous sql statement ?
 
 A first option is just using the arrow keys to go a few queries back.
 
-The second option is like in a bash terminal : CTRL-r then start filtering by fragment you remember and cycle between matching queries with CTRL-r
+The second option is like in a bash terminal : `CTRL-r` then start filtering by fragment you remember and cycle between matching queries with `CTRL-r`
 
 I like to keep track of queries and outputs (number of records deleted/updated,...) that I've run on a production server but sadly there's no easy way to wiretype them (the history is not a perfect solution there). For the moment I copy paste them in gists/jira/text files for later reference. Generally some of these end up being reused and more formalised as [runbooks](https://en.wikipedia.org/wiki/Runbook).
 
@@ -227,7 +227,7 @@ You get the query (sometimes truncated) and the status :
 
 - active (running right now),
 - idle (so probaby show the last executed sql with this connection),
-- idle in transaction (waiting for other tx to complete, or cpu time)
+- idle in transaction (waiting for other tx to complete, or cpu time, or zoombie queries eating all your server's RAM)
 - other [statuses](https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STAT-ACTIVITY-VIEW)
 
 In my current work, I've combined a few tools to get a feeling of "what's running" when we have problems :
@@ -261,13 +261,17 @@ If you want to go further check the [crunchydata article](https://www.crunchydat
 
 ## Explain plan visualizer
 
-You have spotted a slow query ? You can now run an explain plan !
+You have spotted a slow query ?
+
+If it's orm generated you might to want to reformat it first to understand what is going on https://sqlformat.org/
+
+You can now run an explain plan !
 
 ```
 psql $DATABASE_URL -qAtc "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) select * from iaso_instance join iaso_form ON iaso_form.id = iaso_instance.form_id where iaso_form.name ilike '%admin%' limit 10" | pbcopy
 ```
 
-This will generate the explain plan of the query in quotes and copy it in the clipboard (assuming you have [xclip](https://garywoodfine.com/use-pbcopy-on-ubuntu/) and pbcopy alias)
+This will generate the explain plan in json of the query in quotes and copy it in the clipboard (assuming you have [xclip](https://garywoodfine.com/use-pbcopy-on-ubuntu/) and `pbcopy` alias (or a mac))
 
 Next step is to paste it on this site : https://tatiyants.com/pev/#/plans/new (no server side parsing/rendering, everything is parsed/stored/rendered in your browser)
 
@@ -278,21 +282,22 @@ Tada ! Thanks to [AlexTatiyants](https://twitter.com/AlexTatiyants) you have nic
 What to look for ?
 
 - `seq scan` on large tables (an index might help ?)
-- cartesian join
+- cartesian join (missing implicit join close ? )
 - really bad row estimates (`ANALYZE` needed ?)
+
+Want more info about explain plan ? Check this Crunchy Data [article](https://www.crunchydata.com/blog/get-started-with-explain-analyze)
 
 Note that you can use other sites like :
 
 - https://explain.depesz.com/ or
-- https://explain.dalibo.com/ but they stored your info serverside, (note dalibo seem to provide a local install too https://github.com/dalibo/pev2)
+- https://explain.dalibo.com/ but they store your info serverside, (note dalibo seem to provide a local install too https://github.com/dalibo/pev2)
 - https://flame-explain.com/visualize/input this looks great also offering a flamegraph rendering
 
 ## Ok that's nice but do you have a tool like top ?
 
 Tired of running, refreshing your psql prompt to hunt the bad sql ? Want to gain visibility when restoring a backup ?
 
-No problem there's a top like tool called [pg_activity](https://github.com/dalibo/pg_activity) (note that it plays well with rds)
-He will refresh regularly, allows to cancel or kill selected backend connections.
+No problem there's a top like tool called [pg_activity](https://github.com/dalibo/pg_activity) developed by Dalibo too (note that it plays well with rds) He will refresh regularly, allows to cancel or kill selected backend connections.
 
 At the top of the screen you will get a sense of the load on the db then bellow you get a list of the running queries.
 
