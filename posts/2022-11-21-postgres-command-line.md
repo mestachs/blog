@@ -214,7 +214,7 @@ Want a cool trick to take csv snapshots of the running queries ?
 psql -h crt.sh -p 5432 -U guest certwatch -c "COPY (select * from pg_stat_activity) TO STDOUT WITH CSV HEADER" > queries.csv
 ```
 
-There are 2 small trick here
+There are 2 small tricks here:
 
 - using `-c` to pass an sql statement and don't go in interactive/prompt mode.
 - using `COPY ( .... ) TO STDOUT WITH CSV HEADER` to generate a csv
@@ -355,6 +355,10 @@ You might want to have a look at other charts solution from the command line
 
 I hope, I gave you a sense of the power the cli. And how to diagnose performance problem without heavy tooling.
 
-Note that once you have started using the cli everyday, this opens also a lot of options to automate things around your database or development environment.
+Note that once you have started using the cli everyday, this open a lot of options to automate things around your database or development environment.
 
 I'll probably write more about command line and data ingestion in a futur article.
+
+---
+
+Found a typo, an error ? Let's make a [PR](https://github.com/mestachs/blog/edit/main/posts/2022-11-21-postgres-command-line.md)
