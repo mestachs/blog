@@ -161,6 +161,8 @@ There are plenty of articles on the web to learn a lot of things about psql, a f
 - [cheatsheets](https://gist.github.com/philippetedajo/91341cb4d14c7b07e381d70839acf0f5)
 - [psql tips](https://psql-tips.org/psql_tips_all.html) (100+ tips)
 - [psql tips](https://pgdash.io/blog/postgres-psql-tips-tricks.html) (timings, null, watch, ...)
+- [pg_insights](https://github.com/lob/pg_insights) queries to diagnose various postgres issues (perf, bloat, wal,... )
+- [postgres_dba](https://github.com/NikolayS/postgres_dba#postgres_dba-postgresdba) approximatively the same eries but shows also how to add custom commands to postgres
 
 # The coolkid : pgcli
 
