@@ -5,7 +5,9 @@ draft: true
 tags: ["postgres", "cli"]
 ---
 
-In this article I wanted to share tools, tricks I use everyday around postgres and especially "command line" oriented.
+In this article I wanted to share tools, tricks/tools I use everyday around postgres and especially "command line" oriented and how to gain visibility in what is actually running in postgres (diagnose performance issues).
+
+I'm not that fluent in english, I hope it's still readable.
 
 # The basic : psql
 
@@ -353,7 +355,9 @@ You might want to have a look at other charts solution from the command line
 
 # Conclusion
 
-I hope, I gave you a sense of the power the cli. And how to diagnose performance problem without heavy tooling.
+I hope, I gave you a sense of the power the psql cli. And how to diagnose performance problem without heavy tooling.
+
+If you want to go further in the art of command line, you should read [the-art-of-command-line](https://github.com/jlevy/the-art-of-command-line/blob/master/README.md#the-art-of-command-line)
 
 Note that once you have started using the cli everyday, this open a lot of options to automate things around your database or development environment.
 
