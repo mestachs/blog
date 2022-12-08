@@ -170,7 +170,7 @@ Check the content, verify warning/error messages.
 Another option might could have been to dump the table as a csv or other queryable format.
 Pick a "stable and humanreadable" format that would survive several years (and versions of that format).
 
-Once the file in a safe place (or multiple places like s3, glacier,... ) you can drop then `datavalueaudit_history_2019` table.
+Once the file in a safe place (or multiple places like s3, glacier,... ) then you can drop `datavalueaudit_history_2019` table.
 
 ## That's it !
 
