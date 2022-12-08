@@ -5,9 +5,7 @@ draft: true
 tags: ["postgres", "historize", "archive"]
 ---
 
-# Postgres : archive old audit records
-
-## The problem : my audit tables grows forever
+# The problem : my audit tables grows forever
 
 Most applications have audit/change logs containing
 
@@ -31,7 +29,7 @@ Most of these old records are probably useless except for legal requirement or e
 
 It would be great to be able to keep these audit table to a reasonable size and move these older records in other table or even better on a cheaper long term storage.
 
-## The good news : sql can move records !
+# The good news : sql can move records !
 
 The good news is that these records have tons of foreign key to other tables but are rarely referenced by other tables. They are a perfect candidate for the technique, I'll describe here.
 
@@ -70,7 +68,7 @@ Foreign-key constraints:
 Has OIDs: no
 ```
 
-### First get an idea of number of records
+## First get an idea of number of records
 
 Issuing a count statement is probably too heavy, you might want just an estimated count of the number of records. This can be done in various ways depending on your [situation](https://stackoverflow.com/a/7945274/613936)
 
@@ -133,7 +131,7 @@ select extract(year from created) as yyyy, count(datavalueauditid) as number_of_
 Time: 90.877s (1 minute 30 seconds), executed in: 90.877s (1 minute 30 seconds)
 ```
 
-### Now let's move
+## Now let's move
 
 Ok we are nearly ready to archive but first make a backup ! (rds snapshot, pgdump, whatever you have in your infra)
 
@@ -159,7 +157,7 @@ SELECT * FROM moved_rows;
 
 Depending on your where clause and the data in the table this might take a few seconds or several minutes or forever.
 
-### And now archive the data to another cheaper storage
+## And now archive the data to another cheaper storage
 
 One option might be to just the dump as sql the new `datavalueaudit_history_2019` table.
 
@@ -174,7 +172,7 @@ Pick a "stable and humanreadable" format that would survive several years (and v
 
 Once the file in a safe place (or multiple places like s3, glacier,... ) you can drop then `datavalueaudit_history_2019` table.
 
-### That's it !
+## That's it !
 
 You can repeat that process for other years (2020, 2021)
 
@@ -184,7 +182,7 @@ Well not yet. A good idea might be to run `VACCUUM FULL, ANALYZE, REINDEX` to re
 
 After that querying this huge table (well a bit smaller now) should be less heavier for the system.
 
-## You plan to do on your infra/table ?
+# You plan to do on your infra/table ?
 
 - test this procedure localy
   - check there's no foreign key issue
