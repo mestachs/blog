@@ -1,7 +1,7 @@
 ---
 title: "Postgres : archive old audit records"
 date: 2022-12-28T07:58:44+01:00
-draft: true
+draft: false
 tags: ["postgres", "historize", "archive"]
 ---
 

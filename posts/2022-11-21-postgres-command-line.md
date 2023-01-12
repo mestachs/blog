@@ -1,7 +1,7 @@
 ---
 title: "Postgres from the command line"
 date: 2022-11-21T20:31:44+01:00
-draft: true
+draft: false
 tags: ["postgres", "cli"]
 ---
 
