@@ -47,10 +47,10 @@ It might look like common sense but when you are unprepared this really helps. I
 - since you are probably remote, it's the only way people can intervene :
   - "hey wait stop we are doing a demo right now"
   - "don't do that before doing this and this and this"
-  - people might notice that the server is up and think the upgrade is done, make your communcation clear the operation is still running, give regular progress notification and tell people when you are done and service is back to normal.
+  - people might notice that the server is up and think the upgrade is done, make your communication clear the operation is still running, give regular progress notification and tell people when you are done and service is back to normal.
 - avoid private channels/conversations, use a slack thread in a public channel (#devops, or a dedicated one to the project)
 - if you do a zoom call, note the action decided in the channel, share the link so that everybody can take the temperature or share their findings
-- announced planned and unplanned operation in the slack channel #devops so if the monitoring detects something, someone else won't jump in to restart things while in fact it's expected to stay down. (you might pause the monitoring alerts, don't forget to re enable it)
+- announce planned and unplanned operation in the slack channel #devops and idealy in the "business" channel so if the monitoring detects something, someone else won't jump in to restart things while in fact it's expected to stay down. (you might pause the monitoring alerts, don't forget to re enable it)
 
 ## In case of doubt : don't move. It's better late than sorry
 
