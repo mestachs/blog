@@ -1,5 +1,5 @@
 ---
-title: "Rules of engagement before touching a server"
+title: "Qualities of a good batch"
 date: 2022-12-28T07:58:44+01:00
 draft: true
 tags: ["development", "batch", "quality"]
