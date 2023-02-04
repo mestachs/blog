@@ -10,10 +10,10 @@ As developer you might receive an xls, csv and do something about it, like impor
 Since it's a complex topic, you might want to keep in your head some common requirements that make such operation a success.
 
 - **traceability**
-  - know which data is coming from where (ex file_name, line)
+  - through the whole process you should know which data is coming from where (ex file_name, line)
   - try to keep the initial data untouched
-    - ex add columns to panda dataframe with cleaned/calculated/... final fields (ex show there was spaces in the inital value, that your batch cleaned up, this will also make stats field "before" "after" easier to analyse)
-  - if possible mark the imported (ex if the model allow some notes, add a note with "import from $file_name $line"
+    - ex add columns to panda dataframe with cleaned/calculated/... final fields (ex show there was spaces in the inital value, that your batch cleaned up, this will also make stats field "before" "after" easier to produce/analyse)
+  - if possible mark the imported data in the target system (ex if the model allow some notes, add a note with "import from $file_name $line")
 - **visible to business**
   - keep stats of what gets in and what is rejected
     - missing required fields,
@@ -37,16 +37,20 @@ Since it's a complex topic, you might want to keep in your head some common requ
   - for patterns/abstraction you might be interested how [spring batch](https://terasoluna-batch.github.io/guideline/5.0.0.RELEASE/en/Ch02_SpringBatchArchitecture.html#Ch02_SpringBatchArch_Detail_BusinessLogic) wants you to structure the code (chuncks, slices,...)
 - **robust, interruptible, resumable**
   - add validations on the data (ex for enums)
-  - add normalisations (ex strip blanks, strip double spaces, these weird "office" [chars](https://stackoverflow.com/questions/10294032/python-replace-typographical-quotes-dashes-etc-with-their-ascii-counterparts) for quote, simple quote : `Centre de santé de l’acobo` `Centre de santé “Tika”`, ...)
+  - add normalisations
+    -strip blanks, strip double spaces,
+    - these weird "office" [chars](https://stackoverflow.com/questions/10294032/python-replace-typographical-quotes-dashes-etc-with-their-ascii-counterparts)
+      - for simple quote : `Centre de santé de l’acobo` -> `Centre de santé de l'acobo`
+      - for double quote `Centre de santé “Tika”` -> `Centre de santé "Tika"`
   - if one record out millions doesn't make it, you should perhaps just catch the exception, log it, proceed with the next record
-  - some mass effect you might end up breaking
+  - due to some mass effect you might end up breaking
     - your script (accumulation => mem full),
     - the server (timeout, memory leak, logs,...),
     - the db (storage full)
   - so you want to be able to re run it (cfr indempotent) or at least resume the batch at the last processed record
 - **don't wait too long before really doing stuff in prod**
   - once you have tested in a staging env your
-  - if the logic is complex new cases might arise (new data added) that your staging test won't discover
+  - if the logic is complex new cases might arise (new data added/modified) that your staging test won't discover
 - **don't expect 100% and a waterfall process**
   - expect a lot of records to be excluded
     - human data entry and free text make generally a lot waste
