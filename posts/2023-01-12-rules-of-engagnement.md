@@ -40,11 +40,11 @@ It might look like common sense but when you are unprepared this really helps. I
 - if you delete/mass update records => a backup/snapshot + store the content before modification if possible + log of the queries
 - if you drop a table => a backup and log the ddl
 - if you run a mass update through api/repl/script, make sure the script has a dry run mode where you can export the data "before modification"
-- even if it looks like a test, development, demo server => do as if it was a production one , take a backup
-  - a mis-labelled server or something that was tagged a staging might have become a production server because in a hurry
-  - you deleted the "test" and someone wanted to delete the "staging"
+- even if it looks like a test, development, demo server => do as if it was a production one, take a backup
+  - a mis-labelled server or something that was tagged as staging might have become a production server because in a hurry
+  - you deleted the "test" and someone wanted to delete the "staging" (cfr It's better late than sorry rule)
   - time has been invested to configure that db, perhaps someone will change its mind about the deletion of the db,
-  - being consistent how you handle your servers will avoid problems, forgetting about this 'safety first' rule
+  - being consistent how you handle your servers will avoid problems, forgetting about this 'safety first' rule when you need it the most!
 
 ## Over communicate and communicate publicly
 
