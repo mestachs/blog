@@ -18,7 +18,7 @@ In this article I'll mainly focus on [trufflehog](https://github.com/trufflesecu
 
 ## Finding credentials in your code base
 
-With [trufflehog](https://github.com/trufflesecurity/trufflehog), you can be locate credentials such as usernames, passwords, certificates/private keys or API keys that are used to authenticate access to certain resources. These credentials may be necessary for accessing sensitive data or performing certain operations, and it's important to keep them secure and not expose them publicly. 
+With [trufflehog](https://github.com/trufflesecurity/trufflehog), you can locate credentials such as usernames, passwords, certificates/private keys or API keys that are used to authenticate access to certain resources. These credentials may be necessary for accessing sensitive data or performing certain operations, and it's important to keep them secure and not expose them publicly. 
 
 ## Improving a bit trufflehog
 
