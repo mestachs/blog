@@ -5,6 +5,8 @@ draft: false
 tags: ["development", "github", "spa", "single page app"]
 ---
 
+# Single page app everywhere
+
 ## The inventory
 
 Small inventory of my side projects deployed as single page app
