@@ -5,9 +5,7 @@ draft: false
 tags: ["development", "github", "spa", "single page app"]
 ---
 
-# Single page app everywhere
-
-## The inventory
+# The inventory
 
 Small inventory of my side projects deployed as single page app
 
@@ -20,7 +18,7 @@ Small inventory of my side projects deployed as single page app
 - [beSolitaire](https://mestachs.github.io/besolitair/#/) : card playing
 - [belgium](https://mestachs.github.io/belgium/#/europe/ ) : written for my kids to learn provinces, chef-lieu, european countries/capitals.
 
-## The stack
+# The stack
 
 The stack evolved with time, initally with create-react-app, npm or yarn.
 
@@ -28,7 +26,7 @@ It seem I'm stabilizing it to
  - [bun.sh](https://bun.sh/guides/ecosystem/vite) and vite : to install dependencies, run, hot reload, production build
  - [gh-pages](https://www.npmjs.com/package/gh-pages) to deploy on github pages
 
-## Just a browser
+# Just a browser
 
 From the projects above, it's crazy what you can do with _just a browser_.
 
@@ -41,7 +39,7 @@ You have plenty of librairies
 The main limitations are probably CORS to access external data/api which are great for security but way more annoying for such "browser" only applications.
 
 
-## But why I'm doing that ?
+# But why I'm doing that ?
 
 It's **cheap** and for the moment everything is opensource so free to host via github.
 It's **fun**.
