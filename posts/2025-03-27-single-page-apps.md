@@ -1,5 +1,5 @@
 ---
-title: "Data last longer than code"
+title: "Single page app everywhere"
 date: 2025-03-07T09:58:44+01:00
 draft: false
 tags: ["development", "github", "spa", "single page app"]
